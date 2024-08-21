@@ -1,0 +1,10 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#root {
+  font-family: "Sora", Sans-Serif; 
+  background: var(--body-bg);
+  color: var(--body-color);
+} 
