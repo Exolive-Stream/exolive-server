@@ -1,14 +1,10 @@
-
 body {
-  --primary-bg: #191934;
-  --primary-bg-rgb: 25, 25, 52;
-  --primary-color: #6A6A93;
-  --body-bg: #0F0E22;
-  --body-color: #bebebe;
+  --bg-primary: #212121;
+  --text-primary: #868686; 
+  --bg-body: #333333; 
+  --text-body: #cccccc; 
+  --bg-secondary: #444444; 
+  --text-secondary: #aaaaaa; 
+  --bg-tertiary: #db2777;
+  --text-tertiary: #111111; 
 }
-/*body {
-  --primary-bg: #ebebeb;
-  --primary-color: #147600;
-  --body-bg: #ebebeb;
-  --body-color: #2e2e2e;
-}*/

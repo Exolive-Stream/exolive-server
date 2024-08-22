@@ -1,7 +1,7 @@
 
 import { Switch, Route } from 'wouter'
 
-import { HomePage } from './features/home' 
+import { HomePage } from './features/home'  
 
 function App () { 
   return (

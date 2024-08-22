@@ -1,38 +1,35 @@
-
-.border-l-current {
-  padding-left: 1rem;
-  border-left: solid currentcolor .5rem;
-}
+.page {
+  @apply bg-body w-full flex flex-col
+} 
 
 /**
  * Backgrounds
  */
 .bg-primary {
-  background: var(--primary-bg);
-}
-.bg-primary-800 {
-  background: rgba(var(--primary-bg-rgb), .8);
-}
+  background: var(--bg-primary);
+} 
 .bg-body {
   background: var(--body-bg);
+}
+.bg-secondary {
+  background: var(--bg-secondary);
+}
+.bg-tertiary {
+  background: var(--bg-tertiary);
 }
 
 /**
  * Text Color
  */
 .text-primary {
-  color: var(--primary-color);
+  color: var(--text-primary);
 }
 .text-body {
-  color: var(--body-color);
+  color: var(--text-body);
 }
-
-/**
- * Font Size
- */
-.text-xs {
-  font-size: .8rem;
+.text-secondary {
+  color: var(--text-secondary);
 }
-.text-2xs {
-  font-size: .6rem;
+.text-tertiary {
+  color: var(--text-tertiary);
 }

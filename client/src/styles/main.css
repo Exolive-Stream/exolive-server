@@ -5,6 +5,6 @@
 
 #root {
   font-family: "Sora", Sans-Serif; 
-  background: var(--body-bg);
-  color: var(--body-color);
+  background: var(--bg-body);
+  color: var(--text-body);
 } 
