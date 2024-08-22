@@ -1,0 +1,51 @@
+const mongoose = require('mongoose');
+
+// Función para generar un UID de 12 dígitos numéricos
+function generateUID() {
+    return Math.floor(Math.random() * 1e12).toString().padStart(12, '0');
+}
+
+const userSchema = new mongoose.Schema({
+    uid: { 
+        type: String, 
+        required: true, 
+        unique: true, 
+        default: generateUID // Genera automáticamente un UID único de 12 dígitos numéricos
+    },
+    username: { type: String, required: true, unique: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    profilePicture: { type: String, default: '' },
+    level: { type: Number, default: 1 }, // Nivel de usuario
+    currentExperience: { type: Number, default: 0 }, // Experiencia actual del usuario
+    dailyCheckIn: [{
+        date: { type: Date, default: Date.now }, // Fecha del check-in diario
+        reward: { type: Number, default: 0 } // Recompensa obtenida en el check-in
+    }],
+    followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    subscription: [
+        {
+            user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // Referencia al usuario que sigue
+            startTime: { type: Date, default: Date.now }, // Fecha de inicio de la suscripción
+            level: { type: String, enum: ['basic', 'pro', 'unlimited'], required: true } // Nivel de la suscripción
+        }
+    ],
+    posts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
+    coins: { type: Number, default: 0 }, // Moneda interna para enviar como regalos
+    diamonds: { type: Number, default: 0 }, // Ganancias en diamantes
+    inventory: {
+        welcomeEntrance: { type: String, default: 'default' }, // Equipamiento de llegada al stream
+        streamFrame: { type: String, default: 'default' }, // Marco de stream
+        chatBubbleFrame: { type: String, default: 'default' }, // Marco de burbuja de chat
+        gifts: [{type: String}], // Regalos en inventario
+        iWelcomeEntrance: [{ type: String }], // Inventario de entradas al stream
+        iStreamFrame: [{ type: String }], // Inventario de marcos de stream
+        iChatBubbleFrame: [{ type: String }] // Inventario de marcos de burbuja de chat
+    },
+    totalEarnings: { type: Number, default: 0 },
+    totalSpends: { type: Number, default: 0 },
+    createdAt: { type: Date, default: Date.now }
+});
+
+module.exports = mongoose.model('User', userSchema);
