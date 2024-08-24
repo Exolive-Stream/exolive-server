@@ -33,7 +33,6 @@ module.exports = {
         context: [
           '/socket.io', 
           '/api', 
-          '/auth'
         ],
         target: 'http://localhost:' + SERVER_PORT,
         changeOrigin: true,

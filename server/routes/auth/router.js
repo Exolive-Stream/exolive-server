@@ -1,4 +1,4 @@
-const router = require("express").Router;
+const router = require("express").Router();
 const register = require("./register.js");
 const login = require("./login.js");
 const { body, validationResult } = require('express-validator');

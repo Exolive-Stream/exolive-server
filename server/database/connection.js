@@ -1,14 +1,11 @@
-const mongoose = require('mongoose');
-require('dotenv').config(); // Para cargar las variables de entorno desde un archivo .env
+
+const mongoose = require('mongoose'); 
+const { MONGO_URI, DEV } = require('../../config');
 
 const connectDB = async () => {
     try {
-        const conn = await mongoose.connect(process.env.MONGO_URI, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-            useCreateIndex: true,
-            useFindAndModify: false
-        });
+      DEV && console.log('MONGO_URI', MONGO_URI);
+        const conn = await mongoose.connect(MONGO_URI, {});
 
         console.log(`MongoDB Connected: ${conn.connection.host}`);
     } catch (err) {

@@ -1,8 +1,7 @@
 // Iniciar sesión
 const config = require("../../../config.js");
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-const User = require('./models/User');
+const User = require('../../models/User');
 
 const login = async (req, res) => {
     const { email, password } = req.body;

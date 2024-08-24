@@ -1,9 +1,9 @@
 
-const { PUBLIC_DIR, SERVER_PORT } = require('../config.js');
-const connectDB = require("./database/connection.js");
+const { PUBLIC_DIR, SERVER_PORT } = require('../config');
+const connectDB = require("./database/connection");
 const express = require('express'); 
 const app = express();
-const router = require("./routes/router.js");
+const router = require("./routes/router");
 
 connectDB();
 
