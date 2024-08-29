@@ -47,6 +47,8 @@ const userSchema = new mongoose.Schema({
     },
     totalEarnings: { type: Number, default: 0 },
     totalSpends: { type: Number, default: 0 },
+    lastOnline: { type: Date , default: Date.now},
+    accLevel: {type: Number , default: 1}, // 0- banned , 1-regular , 2-moderator , 3-admin
     createdAt: { type: Date, default: Date.now }
 });
 
