@@ -13,7 +13,7 @@ export function SendButton({ icon, href, children, onClick }) {
     >
       <div className={sendStyles.svg_wrapper_1}>
         <div className={sendStyles.svg_wrapper}>
-          { icon }
+          {icon}
           {/* <svg
             viewBox='0 0 24 24'
             width='24'
@@ -33,15 +33,21 @@ export function SendButton({ icon, href, children, onClick }) {
   )
 }
 
-export function ModernButton({ className, children, href, onClick}) {
+export function ModernButton({ className, children, href, onClick, disable }) {
   return (
     <a
-      className={'m-1 ' + modernStyles.animated_button}
+      className={cx(
+        'm-1',
+        disable && 'disable',
+        modernStyles.animated_button,
+      )}
       data-aos='fade-right'
-      data-aos-delay='200' 
+      data-aos-delay='200'
       onClick={
-        onClick || 
-        (href && (() => navigate(href)))
+        disable ? null : (
+          onClick ||
+          (href && (() => navigate(href)))
+        )
       }
     >
       <svg className={modernStyles.arr_2} viewBox='0 0 24 24'>

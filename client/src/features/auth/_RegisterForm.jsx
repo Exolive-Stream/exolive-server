@@ -1,23 +1,39 @@
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
 import { ModernButton, TextField } from '@/components';
-
+import axios from 'redaxios'
+import { useUserStore } from '@/store';
+import { parseError, validateEmail } from './_errors';
 
 export function RegisterForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rpassword, setRPassword] = useState('');
   const [error, setError] = useState();
+  const [sending, setSending] = useState(false);
   const [location, navigate] = useLocation();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password !== rpassword) return setError('Passwords do not match');
-    if (email === 'admin' && password === 'password') {
+    setSending(true);
+
+    try {
+      if (password !== rpassword) throw { message: 'Passwords do not match' };
+      if (!validateEmail(email)) throw { message: 'Invalid email' };
+
+      const response = await axios.post('/api/auth/register', {
+        username: email.split('@')[0],
+        email,
+        password,
+      });
       navigate('/');
-    } else {
-      setError('Invalid email or password');
+      
+    } catch ({ status, message, error }) {
+      setSending(false);
+      if (message) return setError(message);
+      if (error) return setError(parseError(error));
+      return setError(parseError(null));
     }
   };
 
@@ -48,7 +64,12 @@ export function RegisterForm() {
       />
       {error && <p className='text-lg font-bold text-red-600 mb-4'>{error}</p>}
       <div className='self-end'>
-        <ModernButton onClick={handleSubmit}> Create account </ModernButton>
+        <ModernButton
+          onClick={handleSubmit}
+          disable={sending}
+        >
+          Create account
+        </ModernButton>
       </div>
 
       <div

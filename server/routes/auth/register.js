@@ -15,7 +15,7 @@ const register = async (req, res) => {
     try {
         let user = await User.findOne({ email });
         if (user) {
-            return res.status(400).json({ msg: 'USER_EXIST' });
+            return res.status(400).json({ error: 'USER_EXIST' });
         }
 
         user = new User({
@@ -37,7 +37,7 @@ const register = async (req, res) => {
         res.json({ token });
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('INTERNAL_SERVER_ERROR');
+        res.status(500).send({error: 'INTERNAL_SERVER_ERROR'});
     }
 };
 
