@@ -47,7 +47,7 @@ export function WelcomePage() {
           You are in <TextLogo />
         </h1>
 
-        <ModernButton> Watch girls </ModernButton>
+        <ModernButton href='/auth/login'> Watch girls </ModernButton>
 
         <div
           className="w-full p-3 absolute bottom-0 left-0"

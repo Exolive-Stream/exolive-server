@@ -1,0 +1,48 @@
+
+.container {
+  position: relative; 
+  margin: 1rem 0;
+  width: 200px;
+}
+
+.container .input {
+  font-size: 20px;
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  padding: 5px 0;
+  background-color: transparent;
+  outline: none;
+}
+
+.container .label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #ccc;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.container .input:focus ~ .label,
+.container .input:not([value=""]) ~ .label {
+  top: -20px;
+  font-size: 16px;
+  color: var(--bg-tertiary);
+}
+
+.container .underline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  background-color: var(--bg-tertiary);
+  transform: scaleX(0);
+  transition: all 0.3s ease;
+}
+
+.container .input:focus ~ .underline,
+.container .input:not([value=""]) ~ .underline {
+  transform: scaleX(1);
+}

@@ -2,6 +2,7 @@
 import cx from 'classix'
 import modernStyles from './modern.module.css'
 import sendStyles from './send.module.css'
+import { navigate } from 'wouter/use-browser-location'
 
 export function SendButton({ icon, href, children, onClick }) {
   return (
@@ -32,14 +33,16 @@ export function SendButton({ icon, href, children, onClick }) {
   )
 }
 
-export function ModernButton({ className, children, href, download }) {
+export function ModernButton({ className, children, href, onClick}) {
   return (
     <a
       className={'m-1 ' + modernStyles.animated_button}
       data-aos='fade-right'
-      data-aos-delay='200'
-      href={href}
-      download={download}
+      data-aos-delay='200' 
+      onClick={
+        onClick || 
+        (href && (() => navigate(href)))
+      }
     >
       <svg className={modernStyles.arr_2} viewBox='0 0 24 24'>
         <path
