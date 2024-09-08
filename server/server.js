@@ -1,14 +1,14 @@
 const { PUBLIC_DIR, SERVER_PORT } = require('../config');
 const connectDB = require("./database/connection");
 const express = require('express'); 
-const http = require('http'); // Importa el módulo http para crear un servidor
-const socketIO = require('socket.io'); // Importa Socket.io
+const http = require('http'); 
+const socketIO = require('socket.io');
 const router = require("./routes/router");
 const verifyToken = require("./routes/auth/verifyToken.js").verifySocketToken;
 
 const app = express();
-const server = http.createServer(app); // Crea un servidor HTTP con Express
-const io = socketIO(server); // Inicia Socket.io con el servidor HTTP
+const server = http.createServer(app);
+const io = socketIO(server); 
 
 connectDB();
 
@@ -30,9 +30,9 @@ io.on('connection', (socket) => {
   }, 3000); 
 
   socket.on('authenticate', (token) => {
-      const isValid = verifyToken(token);
+      const token = verifyToken(token);
       
-      if (!isValid) {
+      if (!token.valid) {
           socket.emit('error', 'INVALID_TOKEN');
           socket.disconnect();
       } else {
