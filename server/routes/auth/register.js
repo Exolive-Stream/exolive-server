@@ -5,10 +5,8 @@ const User = require('../../models/User.js');
 
 // Registrar un nuevo usuario
 const register = async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
+    if(!req.body.username || !req.body.email || !req.body.password) return res.status(400).json({error: 'MISSING_DATA'});
+    
 
     const { username, email, password } = req.body;
 
