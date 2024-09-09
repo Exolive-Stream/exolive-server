@@ -20,6 +20,7 @@ app.get('*', (req, res) => {
   res.sendFile(PUBLIC_DIR + '/index.html');
 });
 
+const sock = require("./engine/socket.js");
 io.on('connection', (socket) => {
   console.log('Client connected:', socket.id);
 
@@ -39,6 +40,7 @@ io.on('connection', (socket) => {
           clearTimeout(authTimeout);
           console.log('User authenticated:', socket.id);
           socket.emit('authenticated', 'User authenticated successfully');
+          sock(socket);
       }
   });
 
