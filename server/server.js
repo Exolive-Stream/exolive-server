@@ -50,6 +50,8 @@ io.on('connection', (socket) => {
   });
 });
 
+const nms = require("./engine/media-server/nms.js");
+nms();
 
 // Iniciar servidor
 server.listen(SERVER_PORT, () => {

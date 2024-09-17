@@ -4,7 +4,7 @@
   "main": "server/server.js",
   "scripts": {
     "start": "node server/server.js",
-    "dev": "npm start & npm run client",
+    "dev": "npm start && npm run client",
     "build": "cd client && npm run build",
     "client": "cd client && npm start",
     "client_install": "cd client && npm install"
@@ -15,6 +15,7 @@
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.5.3",
+    "node-media-server": "^2.7.0",
     "socket.io": "^4.7.5"
   }
 }
