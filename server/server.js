@@ -30,8 +30,8 @@ io.on('connection', (socket) => {
       socket.disconnect(); 
   }, 3000); 
 
-  socket.on('authenticate', (token) => {
-      const token = verifyToken(token);
+  socket.on('authenticate', (_token) => {
+      const token = verifyToken(_token);
       
       if (!token.valid) {
           socket.emit('error', 'INVALID_TOKEN');
