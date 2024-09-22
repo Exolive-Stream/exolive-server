@@ -3,6 +3,11 @@ const errorsMap = {
   USER_EXIST: "User already exists",
 }
 
+export const ResponseError = (data) => ({
+  data,
+  status: 0,
+});
+
 export const parseError = (errorId) => {
   const error = errorsMap[errorId];
 

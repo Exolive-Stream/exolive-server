@@ -66,7 +66,7 @@ export function WelcomePage() {
       <h1 className="text-3xl px-6 font-bold text-primary"> Trending Models: </h1>
 
       <ul className="p-6 flex flex-row flex-wrap gap-4">
-        {Array(20).fill(0).map(() => <LayoutLoader/>)}
+        {Array(20).fill(0).map((item, index) => <LayoutLoader key={index}/>)}
       </ul>
     </main>
   );

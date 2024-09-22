@@ -10,13 +10,13 @@ const login = async (req, res) => {
         const user = await User.findOne({ email });
 
         if (!user) {
-            return res.status(400).json({ msg: 'USER_NOT_FOUND' });
+            return res.status(400).json({ error: 'USER_NOT_FOUND' });
         }
 
         const isMatch = await user.matchPassword(password);
 
         if (!isMatch) {
-            return res.status(400).json({ msg: 'WRONG_PASSWORD' });
+            return res.status(400).json({ error: 'WRONG_PASSWORD' });
         }
 
         const payload = {

@@ -2,21 +2,32 @@
 import { useState } from 'react';
 import { useLocation } from 'wouter';
 import { ModernButton, TextField } from '@/components';
+import { useUserStore } from '@/store';
+import axios from 'redaxios'
+import { parseError } from '@/utils';
 
 
 export function LoginForm() {
+  const [isLoggedIn, login] = useUserStore(s => [s.isLoggedIn, s.login]);
+  const [token, setToken] = useUserStore(s => [s.token, s.setToken]);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState();
   const [location, navigate] = useLocation();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (email === 'admin' && password === 'password') {
-      navigate('/');
-    } else {
+    try {
+      const response = await axios.post('/api/auth/login', {
+        email,
+        password,
+      }); 
+      login(email, response.data.token);
+
+    } catch ({status, data}) {
+      if (data) return setError(parseError(data.error));
       setError('Invalid email or password');
-    }
+    } 
   };
 
   return (

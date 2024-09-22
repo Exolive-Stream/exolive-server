@@ -1,13 +1,17 @@
 
 import { useLocation } from "wouter";
-import { LoginForm } from "./_LoginForm";
-import { RegisterForm } from "./_RegisterForm";
+import { useUserStore } from "@/store";
 
 import { hotgirlImg1, hotgirlImg2 } from '@/assets';
 import { TextLogo } from "@/components";
+import { LoginForm } from "./_LoginForm";
+import { RegisterForm } from "./_RegisterForm";
 
 export function AuthPage() {
+  const isLoggedIn = useUserStore(s => s.isLoggedIn);
   const [location, navigate] = useLocation();
+  
+  if (isLoggedIn) return navigate('/');
 
   return (
     <main
@@ -28,8 +32,8 @@ export function AuthPage() {
       <div className='w-full flex-grow flex items-center justify-center'>
         {
           location === '/auth/login' ? <LoginForm /> :
-            location === '/auth/register' ? <RegisterForm /> :
-              navigate('/')
+          location === '/auth/register' ? <RegisterForm /> :
+            navigate('/')
         }
       </div>
     </main> 

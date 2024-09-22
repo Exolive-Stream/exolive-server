@@ -38,7 +38,7 @@ export function ModernButton({ className, children, href, onClick, disable }) {
     <a
       className={cx(
         'm-1',
-        disable && 'disable',
+        disable && modernStyles.disable,
         modernStyles.animated_button,
       )}
       data-aos='fade-right'

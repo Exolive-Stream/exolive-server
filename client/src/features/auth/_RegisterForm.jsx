@@ -2,11 +2,12 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
 import { ModernButton, TextField } from '@/components';
+import { useUserStore } from '@/store'; 
+import { ResponseError, parseError, validateEmail } from '@/utils';
 import axios from 'redaxios'
-import { useUserStore } from '@/store';
-import { parseError, validateEmail } from './_errors';
 
 export function RegisterForm() {
+  const [token, setToken] = useUserStore(s => [s.token, s.setToken]);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rpassword, setRPassword] = useState('');
@@ -17,22 +18,24 @@ export function RegisterForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSending(true);
-
     try {
-      if (password !== rpassword) throw { message: 'Passwords do not match' };
-      if (!validateEmail(email)) throw { message: 'Invalid email' };
+      if (password !== rpassword) throw new ResponseError({ msg: 'Passwords do not match' });
+      if (!validateEmail(email)) throw new ResponseError({ msg: 'Invalid email' }); 
 
       const response = await axios.post('/api/auth/register', {
         username: email.split('@')[0],
         email,
         password,
       });
-      navigate('/');
-      
-    } catch ({ status, message, error }) {
+      setToken(response.data.token); 
       setSending(false);
-      if (message) return setError(message);
-      if (error) return setError(parseError(error));
+
+      navigate('/auth/login');
+
+    } catch ({ status, data }) {
+      setSending(false);
+      if (data.msg) return setError(data.msg);
+      if (data.error) return setError(parseError(data.error));
       return setError(parseError(null));
     }
   };
