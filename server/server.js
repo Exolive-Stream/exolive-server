@@ -9,6 +9,7 @@ const verifyToken = require("./routes/auth/verifyToken.js").verifySocketToken;
 const app = express();
 const server = http.createServer(app);
 const io = socketIO(server); 
+app.use(express.json());
 
 connectDB();
 
@@ -20,35 +21,45 @@ app.get('*', (req, res) => {
   res.sendFile(PUBLIC_DIR + '/index.html');
 });
 
+module.exports = io;
 const sock = require("./engine/socket.js");
-io.on('connection', (socket) => {
-  console.log('Client connected:', socket.id);
 
-  const authTimeout = setTimeout(() => {
-      console.log(`Authentication timeout for socket ${socket.id}`);
+io.users = {};
+io.on('connection', (socket) => {
+    // Leer el token desde el handshake
+    const token = socket.handshake.query.token;
+  
+    if (!token) {
+      socket.emit('error', 'NO_TOKEN');
+      return socket.disconnect();
+    }
+  
+    const authTimeout = setTimeout(() => {
       socket.emit('error', 'AUTHENTICATION_TIMEOUT'); 
       socket.disconnect(); 
-  }, 3000); 
-
-  socket.on('authenticate', (_token) => {
-      const token = verifyToken(_token);
-      
-      if (!token.valid) {
-          socket.emit('error', 'INVALID_TOKEN');
-          socket.disconnect();
-      } else {
-          clearTimeout(authTimeout);
-          console.log('User authenticated:', socket.id);
-          socket.emit('authenticated', 'User authenticated successfully');
-          sock(socket);
-      }
-  });
-
-  socket.on('disconnect', () => {
+    }, 3000); // 3 segundos para autenticar
+  
+    // Verificar el token de JWT
+    const verifiedToken = verifyToken(token);
+  
+    if (!verifiedToken.valid) {
+      socket.emit('error', 'INVALID_TOKEN');
+      return socket.disconnect();
+    }
+  
+    clearTimeout(authTimeout);
+    socket.emit('authenticated', 'User authenticated successfully');
+    socket.user_id = verifiedToken.user.id;
+    io.users[socket.user_id] = socket;
+    sock(socket , io);
+  
+    socket.on('disconnect', () => {
       console.log('Client disconnected:', socket.id);
       clearTimeout(authTimeout); 
+    });
   });
-});
+
+  
 
 const nms = require("./engine/media-server/nms.js");
 nms();
